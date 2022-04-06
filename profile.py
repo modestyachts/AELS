@@ -25,9 +25,9 @@ reuse = not args.recompute
 threads = args.threads
 
 if objective is Objective.LOGISTIC:
-    algs = np.asarray([ae, ba, tba])
+    algs = np.asarray([ae, ba, tba, wolfe_cheap, co, inv])
 else: 
-    algs = np.asarray([aeb, ae, aer, bab, tbab, nm, bfgs])
+    algs = np.asarray([aeb, bab, tbab, nm, bfgs_cheap])
 
 def run_alg(function, alg, trial):
     prep_prof(function, alg, trial=trial, reuse=reuse)

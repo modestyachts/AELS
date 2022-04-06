@@ -13,9 +13,9 @@ parser.add_argument('--quiet', action='store_true', help='don\'t print what is w
 args= parser.parse_args()
 
 if args.objective is Objective.LOGISTIC:
-    algs = np.asarray([ae, ba, tba])
+    algs = np.asarray([ae, ba, tba, wolfe_cheap, co, inv])
 else: 
-    algs = np.asarray([aeb, ae, aer, bab, tbab, nm, bfgs])
+    algs = np.asarray([aeb, bab, tbab, nm, bfgs_cheap])
 
 funcs = get_functions(args.objective, args.problems_file)
 

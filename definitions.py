@@ -4,7 +4,13 @@ from utils import Method, Algorithm
 nm = Method(algorithm=Algorithm.NELDER_MEAD, name='Nelder-Mead')
 
 # Wolfe BFGS
-bfgs = Method(algorithm=Algorithm.BFGS, name='Wolfe + BFGS')
+bfgs_cheap = Method(algorithm=Algorithm.BFGS, name='Wolfe + BFGS')
+bfgs_expensive = Method(algorithm=Algorithm.BFGS, name='Expensive Wolfe + BFGS', cheap=False)
+scipy_bfgs = Method(algorithm=Algorithm.SCIPY_BFGS, name='Scipy Wolfe + BFGS')
+
+# Wolfe
+wolfe_cheap = Method(algorithm=Algorithm.WOLFE, name='Wolfe')
+wolfe_expensive = Method(algorithm=Algorithm.WOLFE, name='Expensive Wolfe', cheap=False)
 
 # Wright-Nocedal line search
 wn = Method(algorithm=Algorithm.WRIGHT_NOCEDAL, name='Wright-Nocedal')
@@ -35,3 +41,11 @@ tba = Method(algorithm=Algorithm.BACKTRACKING, warm_start=False, name='Tradition
 tbar = Method(algorithm=Algorithm.BACKTRACKING, random=True, warm_start=False, name='Traditional Backtracking + Random')
 tbam = Method(algorithm=Algorithm.BACKTRACKING, warm_start=False, momentum=True, name='Traditional Backtracking + Momentum')
 tbab = Method(algorithm=Algorithm.BACKTRACKING, warm_start=False, bfgs=True, name='Traditional Backtracking + BFGS')
+
+# Constant step sizes
+co = Method(algorithm=Algorithm.FIXED, warm_start=False, name='Constant')
+cob = Method(algorithm=Algorithm.FIXED, warm_start=False, name='Constant + BFGS')
+
+# Inverse step sizes
+inv = Method(algorithm=Algorithm.INVERSE, warm_start=False, name='Inverse')
+inb = Method(algorithm=Algorithm.INVERSE, warm_start=False, name='Inverse + BFGS')

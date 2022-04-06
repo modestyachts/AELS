@@ -1,5 +1,4 @@
 import numpy as np
-import sys
 import os
 import multiprocessing
 from argparse import ArgumentParser
@@ -17,15 +16,16 @@ class Kind(Enum):
 parser = ArgumentParser()
 parser.add_argument('--threads', type=int, default=1, help='number of processes to run concurrently')
 parser.add_argument('--type', type=Kind, default='batchsize', choices=list(Kind))
+parser.add_argument('--tau_max', type=int, default=100, help='maximum x axis value for a performance profile')
 args= parser.parse_args()
 
 prefix = './figures/'
 if args.type is Kind.DFO:
-    algs = np.asarray([aeb, ae, aer, bab, tbab, nm, bfgs])
+    algs = np.asarray([aeb, bab, tbab, nm, bfgs_cheap])
     probs_files = np.asarray(['problems/dfo.txt'])
     objective = Objective.DFO
 elif args.type is Kind.BATCHSIZE:
-    algs = np.asarray([ae, ba, tba])
+    algs = np.asarray([ae, ba, tba, wolfe_cheap, co, inv])
     probs_files = np.asarray(['problems/logistic_sgd_batchsize_None.txt', 
                             'problems/logistic_sgd_batchsize_1600.txt',
                             'problems/logistic_sgd_batchsize_400.txt',
@@ -35,7 +35,7 @@ elif args.type is Kind.BATCHSIZE:
                             'problems/logistic_sgd_batchsize_1.txt'])
     objective = Objective.LOGISTIC
 elif args.type is Kind.EPSILON:
-    algs = np.asarray([ae, ba, tba])
+    algs = np.asarray([ae, ba, tba, wolfe_cheap, co, inv])
     probs_files = np.asarray(['problems/logistic_sgd_epsilon_pt001.txt', 
                               'problems/logistic_sgd_epsilon_pt0001.txt',
                               'problems/logistic_sgd_epsilon_pt00001.txt',
@@ -44,7 +44,7 @@ elif args.type is Kind.EPSILON:
 
 
 def perf_func(functions, algs, filename, fullsize, legend):
-    perf_prof(functions, algs, filename=filename, fullsize=fullsize, legend=legend)
+    perf_prof(functions, algs, filename=filename, fullsize=fullsize, legend=legend, tau_max=args.tau_max)
 
 def data_func(functions, algs, filename, fullsize, legend):
     data_prof(functions, algs, filename=filename, fullsize=fullsize, legend=legend)
